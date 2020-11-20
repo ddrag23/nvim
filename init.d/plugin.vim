@@ -9,7 +9,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'https://github.com/vim-airline/vim-airline.git'
 Plug 'honza/vim-snippets'
 
-
 " Better whitespace highlighting for Vim.
 Plug 'ntpeters/vim-better-whitespace'
 

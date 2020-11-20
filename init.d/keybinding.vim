@@ -6,13 +6,13 @@ let mapleader      = ","
 let maplocalleader = ","
 
 " for edit my .vimrc
-nmap <silent> <leader>ev :e ~/.config/nvim/README.md<cr>
-                       \ :cd %:p:h<cr>
-                       \ :cal cursor(1,1)<cr>
-                       \ :NERDTreeToggle<cr>
-
+nmap <silent> <leader>ev :cd ~/.config/nvim<cr>:NERDTreeToggle<cr>
 " source vimrc
 nmap <leader>es :source $MYVIMRC<cr>
+
+" Command
+nmap <leader>/ :Commentary<cr>
+vmap <leader>/ :Commentary<cr>
 
 " for switch & delete buffer
 nmap <leader>n  :bn<cr>
@@ -30,18 +30,31 @@ nmap <silent> <leader>nh :noh<cr>
 " for clear highlight search
 nmap <silent> <leader><space> :nohlsearch<cr>
 
+" auto format php
+function IndentPHPHTML()
+    set ft=html
+    normal gg=G
+    if &ft == 'php'
+        set ft=php
+    else
+        set ft=blade
+    endif
+endfunction
+nnoremap <leader>fl :call IndentPHPHTML()<cr>
+
 " Coc
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+            \ pumvisible() ? coc#_select_confirm() :
+            \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+let g:coc_snippet_next = '<tab>'
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -49,8 +62,9 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+xmap <leader>F  <Plug>(coc-format-selected)
+vmap <leader>F  <Plug>(coc-format-selected)
+nmap <leader>F :call CocAction('format')<cr>
 
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
@@ -111,6 +125,7 @@ nmap ga <Plug>(EasyAlign)
 nmap <C-p> :Buffers<cr>
 "nmap <C-f> :FZF<cr>
 nmap <leader>f :Files<cr>
+autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
 
 " prevent Vim scrolling when splitting a window
 nnoremap <C-W>s Hmx`` \|:split<CR>`xzt``
@@ -127,12 +142,12 @@ nmap <silent> <leader>lv :loadview<cr>
 " increment visual select with: Visual block then g C-a
 " demo: https://t.me/VimID/21773
 function! Incr()
-  let a = line('.') - line("'<")
-  let c = virtcol("'<")
-  if a > 0
-    execute 'normal! '.c.'|'.a."\<C-a>"
-  endif
-  normal `<
+    let a = line('.') - line("'<")
+    let c = virtcol("'<")
+    if a > 0
+        execute 'normal! '.c.'|'.a."\<C-a>"
+    endif
+    normal `<
 endfunction
 vnoremap <C-a> :call Incr()<CR>
 
@@ -151,5 +166,6 @@ nnoremap g8 :as<cr>
 
 " overide save when typo
 command! W :w
+command! Wq :wq
 
 

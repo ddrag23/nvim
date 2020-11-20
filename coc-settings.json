@@ -1,18 +1,8 @@
 {
-"emmet.includeLanguages": { "vue-html": "html", "javascript": "javascript", "javascriptreact" : "javascriptreact"},
-"emmet.showExpandedAbbreviation": "always",
-"html.filetypes": ["html", "handlebars", "jinja2.html", "php"],
-"html.suggest.html5": true,
-"html.validate.styles": true,
-"languageserver": { 
-    "lua": { "command": "lua-lsp", "filetypes": ["lua"] },
-    "intelephense": {
-        "command": "intelephense",
-        "args": ["--stdio"],
-        "filetypes": ["php"],
-        "initializationOptions": {
-          "storagePath": "/tmp/intelephense"
-        }
-    }
-  }
+  "emmet.includeLanguages": { "vue-html": "html", "javascript": "javascriptreact"},
+  "emmet.showExpandedAbbreviation": "always",
+  "html.filetypes": ["html", "handlebars", "php"],
+  "html.suggest.html5": true,
+  "html.validate.styles": true,
+  "coc.preferences.formatOnSaveFiletypes": ["css", "javascript","markdown","html","php"]
 }

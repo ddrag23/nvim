@@ -37,7 +37,7 @@ autocmd BufWinLeave *.* mkview!
 "autocmd BufWinEnter *.* silent loadview
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | wincmd p | ene | exe 'NERDTree' argv()[0] | endif
-
+command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, <bang>0)
 
 " for italic on tmux
 set t_ZH=[3m
@@ -67,16 +67,19 @@ set redrawtime=5000
 " I need to disable this because of colaborative work, need to manual execute.
 " Just fine to enable it, if you need.
 "autocmd BufWritePre * %s/\s\+$//e
+command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+command FormatSavePhp call IndentPHPHTML()
 
 " Run xrdb whenever Xdefaults or Xresources are updated.
 autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
 
 " Disable relative number on Terminal
 autocmd TermOpen * setlocal nonumber norelativenumber
+autocmd BufwritePre *.php FormatSavePhp
+autocmd BufwritePre *.blade FormatSavePhp
 
 " Declare this variable before polyglot is loaded. Please don't move this
 "let g:polyglot_disabled = ['autoindent', 'csv']
-
 " Declare airlane
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
